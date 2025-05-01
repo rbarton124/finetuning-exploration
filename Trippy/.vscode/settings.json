@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/13e55a70-4fe7-4ed7-919b-4c96bc680c87/resourceGroups/ItinFronResources/providers/Microsoft.Web/sites/ItinBotFront",
+    "appService.deploySubpath": "."
+}

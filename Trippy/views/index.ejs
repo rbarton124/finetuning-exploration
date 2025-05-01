@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Via - Your Personal Travel Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/IndexStyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 11a9 9 0 0 1 9 9"></path>
+                <path d="M4 4a16 16 0 0 1 16 16"></path>
+                <circle cx="5" cy="19" r="2"></circle>
+            </svg>
+            <span class="logo-text text-xl font-display font-bold">Wanderlust AI</span>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-16 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
+        <!-- Hero Section -->
+        <div class="mb-12 text-center" data-aos="fade-up" data-aos-duration="800">
+            <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
+                Your Dream Trip, <br class="md:hidden"> AI-Crafted
+            </h1>
+            <p class="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto">
+                Tell us what you're looking for, and we'll create the perfect travel itinerary tailored just for you.  
+            </p>
+            
+            <!-- Travel illustrations -->
+            <div class="relative h-40 my-8 hidden md:block">
+                <img src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dHJhdmVsfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=200&q=60" class="absolute w-24 h-24 object-cover rounded-lg shadow-lg left-1/4 top-0 transform -translate-x-1/2 -rotate-6" data-aos="fade-right" data-aos-delay="300" alt="Travel image">
+                
+                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHRyYXZlbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=200&q=60" class="absolute w-32 h-32 object-cover rounded-lg shadow-lg left-2/4 top-4 transform -translate-x-1/2 rotate-3" data-aos="fade-up" data-aos-delay="400" alt="Travel image">
+                
+                <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHRyYXZlbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=200&q=60" class="absolute w-28 h-28 object-cover rounded-lg shadow-lg left-3/4 top-2 transform -translate-x-1/2 rotate-6" data-aos="fade-left" data-aos-delay="500" alt="Travel image">
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <div class="form-card-header">
+                <h2 class="text-white font-display font-semibold text-xl">Create Your Travel Plan</h2>
+                <div class="flex space-x-2 text-primary-100">
+                    <span class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span class="text-xs">AI-Powered</span>
+                    </span>
+                </div>
+            </div>
+            
+            <form id="form" class="p-8" x-data="{ activeTab: 'destination', showCustomInterest: false, formSubmitting: false, customInterest: '', customTripType: '', destination: '' }">
+                <!-- Progress Steps -->
+                <div class="progress-steps-container">
+                    <button type="button" @click="activeTab = 'destination'" 
+                        :class="activeTab === 'destination' ? 'active' : ''" 
+                        class="progress-step">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="text-sm font-medium whitespace-nowrap">Destination</span>
+                    </button>
+                    
+                    <button type="button" @click="activeTab = 'dates'" 
+                        :class="activeTab === 'dates' ? 'active' : ''" 
+                        class="progress-step">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span class="text-sm font-medium whitespace-nowrap">Dates</span>
+                    </button>
+                    
+                    <button type="button" @click="activeTab = 'interests'" 
+                        :class="activeTab === 'interests' ? 'active' : ''" 
+                        class="progress-step">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-sm font-medium whitespace-nowrap">Interests</span>
+                    </button>
+                    
+                    <button type="button" @click="activeTab = 'type'" 
+                        :class="activeTab === 'type' ? 'active' : ''" 
+                        class="progress-step">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="text-sm font-medium whitespace-nowrap">Trip Type</span>
+                    </button>
+                    
+                    <button type="button" @click="activeTab = 'description'" 
+                        :class="activeTab === 'description' ? 'active' : ''" 
+                        class="progress-step">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="text-sm font-medium whitespace-nowrap">Description</span>
+                    </button>
+                </div>
+                
+                <!-- Destination Selection Tab -->
+                <div x-show="activeTab === 'destination'" class="form-section">
+                    <div>
+                        <label for="destination-input" class="form-label">Where do you want to go?</label>
+                        <div class="input-container">
+                            <input 
+                                type="text" 
+                                id="destination-input" 
+                                name="destination-input" 
+                                x-model="destination"
+                                class="input-field pl-10 h-12" 
+                                placeholder="Enter a city, country, or region..."
+                            >
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="input-help-text">Your dream destination sets the stage for your perfect trip.</p>
+                        
+                        <!-- Popular destinations quick selection -->
+                        <div class="mt-4">
+                            <p class="text-xs text-gray-500 mb-2">Popular destinations:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" @click="destination = 'Paris, France'" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                    Paris
+                                </button>
+                                <button type="button" @click="destination = 'Tokyo, Japan'" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                    Tokyo
+                                </button>
+                                <button type="button" @click="destination = 'New York City, USA'" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                    New York
+                                </button>
+                                <button type="button" @click="destination = 'Rome, Italy'" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                    Rome
+                                </button>
+                                <button type="button" @click="destination = 'Bali, Indonesia'" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                    Bali
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-right">
+                        <button type="button" @click="activeTab = 'dates'" class="btn btn-primary w-full">
+                            Next: Dates
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Date Selection Tab -->
+                <div x-show="activeTab === 'dates'" class="form-section">
+                    <div>
+                        <label for="trip-dates" class="form-label">When are you traveling?</label>
+                        <div id="date-picker-container" class="relative">
+                            <input type="text" id="date-range" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 py-3 px-4 bg-gray-50" placeholder="Select dates...">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <!-- Hidden inputs for form submission -->
+                            <input type="hidden" id="start-date" name="trip-dates">
+                            <input type="hidden" id="end-date" name="trip-dates">
+                        </div>
+                        <p class="input-help-text">Select your travel dates to help us plan the perfect itinerary.</p>
+                    </div>
+                    
+                    <div class="text-right">
+                        <button type="button" @click="activeTab = 'interests'" class="btn btn-primary w-full">
+                            Next: Interests
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interests Selection Tab -->
+                <div x-show="activeTab === 'interests'" class="space-y-6 relative overflow-visible">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">What interests you?</label>
+                        
+                        <!-- Interests Checkbox Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+                            <template x-for="(interest, index) in ['Adventure', 'Beaches', 'Food', 'Hiking', 'Historical', 'Museums', 'Nature', 'Nightlife', 'Shopping', 'Sports', 'Wildlife', 'Cultural']">
+                                <label class="relative flex items-start p-3 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-50 focus-within:ring-2 focus-within:ring-primary-500">
+                                    <input 
+                                        type="checkbox" 
+                                        :value="interest.toLowerCase()" 
+                                        name="interests[]"
+                                        class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-0.5"
+                                    >
+                                    <span class="ml-3 text-sm text-gray-900" x-text="interest"></span>
+                                </label>
+                            </template>
+                        </div>
+                        
+                        <!-- Custom Interests Section -->
+                        <div class="mt-6 border-t border-gray-200 pt-4">
+                            <h4 class="text-sm font-medium text-gray-900 mb-3">Add your own interests</h4>
+                            
+                            <div class="flex mb-3">
+                                <input 
+                                    type="text" 
+                                    id="custom-interest" 
+                                    x-model="customInterest" 
+                                    class="block w-full rounded-l-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm" 
+                                    placeholder="e.g. Wine tasting, Surfing, Architecture..."
+                                    @keydown.enter.prevent="addCustomInterest()"
+                                >
+                                <button 
+                                    type="button" 
+                                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-r-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                                    @click="addCustomInterest()"
+                                >
+                                    Add
+                                </button>
+                            </div>
+                            
+                            <!-- Custom interest tags display -->
+                            <div class="flex flex-wrap gap-2" id="custom-interests-container">
+                                <!-- Custom interests will be added here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between pt-4">
+                        <button type="button" @click="activeTab = 'dates'" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" @click="activeTab = 'type'" class="btn btn-primary w-full">
+                            Next: Trip Type
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Vacation Type Tab -->
+                <div x-show="activeTab === 'type'" class="form-section">
+                    <div>
+                        <label class="form-label">What type of trip is this?</label>
+                        
+                        <div class="option-grid">
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="adventure" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd" />
+                                    </svg>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Adventure</span>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="family" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                                    </svg>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Family</span>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="romantic" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                                    </svg>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Romantic</span>
+                            </label>
+                            
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="relaxation" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <span class="text-2xl">🧘</span>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Relaxation</span>
+                            </label>
+                            
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="cultural" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <span class="text-2xl">🏛️</span>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Cultural</span>
+                            </label>
+                            
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="foodie" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <span class="text-2xl">🍽️</span>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Foodie</span>
+                            </label>
+                            
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="luxury" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <span class="text-2xl">✨</span>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Luxury</span>
+                            </label>
+                            
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="budget" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <span class="text-2xl">💰</span>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Budget</span>
+                            </label>
+                            
+                            <label class="option-card">
+                                <input type="radio" name="vacation-type" value="custom" class="sr-only vacation-type-radio" />
+                                <span class="flex items-center justify-center h-10">
+                                    <span class="text-2xl">✏️</span>
+                                </span>
+                                <span class="block text-sm font-medium text-center mt-1">Custom</span>
+                            </label>
+                        </div>
+                        
+                        <!-- Custom Trip Type Input Container -->
+                        <div id="custom-trip-type-container" class="mt-4 hidden">
+                            <label for="custom-trip-type" class="form-label">Enter your custom trip type:</label>
+                            <div class="flex">
+                                <input type="text" id="custom-trip-type" class="input-field rounded-l-md" placeholder="e.g. Educational, Wellness, Road Trip...">
+                                <button type="button" id="add-custom-trip-type" class="btn btn-primary rounded-r-md rounded-l-none">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Custom Trip Type Display -->
+                        <div id="custom-trip-type-display-container" class="mt-4 hidden">
+                            <div class="bg-primary-50 rounded-md p-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-primary-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-primary-700">Custom trip type: <span id="custom-trip-type-display" class="font-medium"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hidden select for vacation type -->
+                        <select id="vacation-type" name="vacation-type" class="hidden">
+                            <option value="adventure">Adventure</option>
+                            <option value="family">Family</option>
+                            <option value="romantic">Romantic</option>
+                            <option value="relaxation">Relaxation</option>
+                            <option value="cultural">Cultural</option>
+                            <option value="foodie">Foodie</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="budget">Budget</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex justify-between">
+                        <button type="button" @click="activeTab = 'interests'" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="button" @click="activeTab = 'description'" class="btn btn-primary w-full">
+                            Next: Description
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Description Tab -->
+                <div x-show="activeTab === 'description'" class="form-section">
+                    <div>
+                        <label for="message" class="form-label">Tell us about your dream trip</label>
+                        <div class="mt-1">
+                            <textarea id="message" name="message" rows="5" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm" placeholder="I'm looking for a laid-back trip to explore local culture, try amazing food, and enjoy some beach time..."></textarea>
+                        </div>
+                        <p class="input-help-text">Describe what you're looking for in this trip - special experiences, must-see places, or anything else that matters to you.</p>
+                    </div>
+                    
+                    <!-- Summary Info-->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-sm font-medium text-gray-900 mb-2">Your Trip Summary</h3>
+                        <div id="trip-summary" class="summary-content"></div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <button type="button" @click="activeTab = 'type'" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </button>
+                        <button type="submit" id="submit-btn" class="btn btn-primary w-full">
+                            <span>Generate My Itinerary</span>
+                        </button>
+                        <div id="loading-spinner" class="hidden">
+                            <div class="flex items-center">
+                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span>Generating your itinerary...</span>
+                            </div>
+                        </div>
+                    <div id="error-message" class="mt-4 text-sm text-red-600 bg-red-50 rounded-md p-4 hidden"></div>
+                </div>
+                
+            </form>
+            
+            <!-- Loading Modal (outside the form) -->
+            <div id="loading-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg p-8 max-w-md w-full shadow-xl">
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-primary-50">
+                            <svg class="animate-spin h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-center text-lg font-medium mb-2">Creating your dream trip...</p>
+                        <p class="text-center text-gray-500">This will take just a moment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out',
+                once: true
+            });
+            
+            // Initialize date picker
+            const dateRangePicker = flatpickr('#date-range', {
+                mode: 'range',
+                minDate: 'today',
+                dateFormat: 'Y-m-d',
+                altInput: true,
+                altFormat: 'F j, Y',
+                onChange: function(selectedDates, dateStr, instance) {
+                    if (selectedDates.length === 2) {
+                        // Update hidden inputs for form submission
+                        document.getElementById('start-date').value = flatpickr.formatDate(selectedDates[0], 'Y-m-d');
+                        document.getElementById('end-date').value = flatpickr.formatDate(selectedDates[1], 'Y-m-d');
+                        // Use the external function from form-handler.js
+                        updateSummary();
+                    }
+                }
+            });
+            
+            // Initialize custom interest functionality
+            document.getElementById('custom-interest').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addCustomInterest();
+                }
+            });
+            
+            // Add custom interest button
+            document.querySelector('#custom-interest + button').addEventListener('click', addCustomInterest);
+            
+            // Setup interest checkboxes
+            document.querySelectorAll('input[name="interests[]"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateSummary);
+            });
+            
+            // Setup radio buttons for vacation type
+            document.querySelectorAll('input[name="vacation-type"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Handle custom option showing/hiding custom input
+                    if (this.value === 'custom-trip-type') {
+                        document.getElementById('custom-trip-type-container').classList.remove('hidden');
+                    } else {
+                        document.getElementById('custom-trip-type-container').classList.add('hidden');
+                        // Update the hidden select
+                        document.getElementById('vacation-type').value = this.value;
+                    }
+                    
+                    // Add visual selected state to radio label
+                    document.querySelectorAll('input[name="vacation-type"]').forEach(r => {
+                        const label = r.closest('label');
+                        if (r.checked) {
+                            label.classList.add('ring-2', 'ring-primary-500', 'border-primary-500');
+                        } else {
+                            label.classList.remove('ring-2', 'ring-primary-500', 'border-primary-500');
+                        }
+                    });
+                    
+                    updateSummary();
+                });
+            });
+            
+            // Handle custom trip type
+            document.getElementById('add-custom-trip-type').addEventListener('click', addCustomTripType);
+            document.getElementById('custom-trip-type').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addCustomTripType();
+                }
+            });
+            
+            // Initialize destination field
+            document.getElementById('destination-input').addEventListener('input', updateSummary);
+            
+            // Update summary on page load
+            updateSummary();
+        });
+        
+        /**
+         * Add custom interest to the form and display it as a tag
+         */
+        function addCustomInterest() {
+            const customInterestInput = document.getElementById('custom-interest');
+            const customInterest = customInterestInput.value.trim();
+            
+            if (!customInterest) return;
+            
+            // Create a hidden checkbox for the form submission
+            const container = document.getElementById('custom-interests-container');
+            const interestId = 'custom-interest-' + Date.now();
+            
+            // Create the visual tag
+            const tag = document.createElement('div');
+            tag.className = 'inline-flex items-center rounded-full bg-primary-100 py-1 px-2 text-sm font-medium text-primary-700';
+            tag.innerHTML = `
+                <span>${customInterest}</span>
+                <button type="button" class="ml-1 inline-flex h-4 w-4 rounded-full items-center justify-center hover:bg-primary-200">
+                    <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                        <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                    </svg>
+                </button>
+                <input type="hidden" name="interests[]" value="${customInterest}">
+            `;
+            
+            // Add remove functionality
+            tag.querySelector('button').addEventListener('click', function() {
+                tag.remove();
+                updateAdditionalInfo();
+            });
+            
+            // Add to container
+            container.appendChild(tag);
+            
+            // Clear input
+            customInterestInput.value = '';
+            
+            // Update summary
+            updateAdditionalInfo();
+        }
+        
+        /**
+         * Add custom trip type
+         */
+        function addCustomTripType() {
+            const customTripInput = document.getElementById('custom-trip-type');
+            const tripType = customTripInput.value.trim();
+            
+            if (!tripType) return;
+            
+            // Set custom trip type in hidden select
+            const select = document.getElementById('vacation-type');
+            select.value = tripType;
+            
+            // Update the custom trip display
+            const customTypeDisplay = document.getElementById('custom-trip-type-display');
+            customTypeDisplay.textContent = tripType;
+            
+            // Show the custom type display
+            document.getElementById('custom-trip-type-display-container').classList.remove('hidden');
+            
+            // Hide the input
+            document.getElementById('custom-trip-type-container').classList.add('hidden');
+            
+            // Clear input
+            customTripInput.value = '';
+            
+            // Update summary
+            updateAdditionalInfo();
+        }
+    </script>
+    
+    <!-- JavaScript Dependencies -->    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JavaScript -->    
+    <script src="/javascripts/form-handler.js"></script>
+    
+    <script>
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init();
+        });
+    </script>
+</body>
+</html>

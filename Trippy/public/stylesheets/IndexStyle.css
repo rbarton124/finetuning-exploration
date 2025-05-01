@@ -1,0 +1,331 @@
+/* IndexStyle.css - Styling for the main form page */
+
+/* Color Scheme */
+:root {
+  --primary-50: #eef9ff;
+  --primary-100: #d8f1ff;
+  --primary-200: #b8e7ff;
+  --primary-300: #85d9ff;
+  --primary-400: #4bc1ff;
+  --primary-500: #1eaaff;
+  --primary-600: #0688f0;
+  --primary-700: #026bd8;
+  --primary-800: #0859af;
+  --primary-900: #0c4a8a;
+  --primary-950: #0b2f57;
+}
+
+/* Base Styles */
+body {
+  background-image: linear-gradient(to bottom right, #eff6ff, #ffffff, #ebf5ff);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header Styles */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.logo-text {
+  background: linear-gradient(to right, var(--primary-600), #4f46e5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Hero Section */
+.hero-title {
+  background: linear-gradient(to right, var(--primary-700), #4f46e5, var(--primary-700));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Form Card */
+.form-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.form-card-header {
+  background: linear-gradient(to right, var(--primary-600), #4f46e5);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+}
+
+/* Progress Steps */
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 0.25rem;
+  border-bottom-width: 2px;
+  flex: 1;
+  transition: all 0.2s;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  min-width: 80px;
+}
+
+.progress-step.active {
+  color: var(--primary-600);
+  border-color: var(--primary-600);
+}
+
+.progress-step:not(.active) {
+  color: #9ca3af;
+  border-color: transparent;
+}
+
+/* Form Elements */
+.input-container {
+  margin-top: 0.25rem;
+  position: relative;
+}
+
+.input-field {
+  display: block;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+
+.input-field:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(30, 170, 255, 0.1);
+}
+
+/* Checkbox/Radio Grid */
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .option-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.option-card {
+  position: relative;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+}
+
+.option-card:hover {
+  background-color: #f9fafb;
+}
+
+/* Selected option card */
+.option-card.selected {
+  border-color: var(--primary-500);
+  background-color: var(--primary-50);
+  box-shadow: 0 0 0 2px var(--primary-500);
+}
+
+/* Non-selected option cards when one is selected */
+.option-grid.has-selection .option-card:not(.selected) {
+  opacity: 0.6;
+}
+
+.option-grid.has-selection .option-card:not(.selected):hover {
+  opacity: 0.9;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-600);
+  color: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-700);
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary:hover {
+  background-color: #f9fafb;
+}
+
+/* Summary Container */
+.summary-container {
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+/* Custom Tags */
+.custom-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--primary-100);
+  color: var(--primary-700);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tag-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  margin-left: 0.25rem;
+}
+
+.tag-remove-btn:hover {
+  background-color: var(--primary-200);
+}
+
+/* Animations */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.loading-container {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  max-width: 28rem;
+  width: 100%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.loading-spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.5rem;
+  border-radius: 9999px;
+  background-color: var(--primary-50);
+}
+
+/* Form layout and structure */
+.form-section {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 0.25rem;
+}
+
+.input-help-text {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.progress-steps-container {
+  display: flex;
+  margin-bottom: 2rem;
+  justify-content: space-around;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.summary-content {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  white-space: pre-line;
+  margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .site-header {
+    padding: 0 2rem;
+  }
+  
+  .option-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .btn.btn-primary.w-full {
+    width: auto;
+  }
+}

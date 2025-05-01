@@ -1,0 +1,57 @@
+You are a travel agent
+Given this JSON file which repersents a travel itinerary for a trip to Paris. The JSON format is what is important. You will generate another Itinerary JSON file of the same format, for a different trip. Give real reccomendations and provide real links. Make sure the schedule does not conflict and there is adequate travel time between events. You don't have to include all interests just use them to influence your reccomendations. The only sections allowed are "travel", "hotel", and "activities/dining". They should all be formatted like below and no new sections are allowed to be added. Do not add any extra text before or after the JSON output.
+make sure you don't have any trailing commas in the JSON
+
+{
+"destination": "Paris, France",
+"start_date": "2023-06-01",
+"end_date": "2023-06-02",
+"travel": {
+"mode_of_transportation": "Flight",
+"travel_details": {
+"arrival_date": "2023-06-01",
+"arrival_time": "10:45",
+"departure_date": "2023-06-02",
+"departure_time": "17:00"
+},
+"hotel": {
+"name": "Hotel Eiffel Trocadero",
+"check_in_date": "2023-06-01",
+"check_out_date": "2023-06-02"
+}
+},
+"activitiesANDdining": [
+{
+"date": "2023-06-01",
+"start_time": "15:00",
+"end_time": "18:00",
+"activity": "Explore Paris",
+"website": "https://en.parisinfo.com/",
+"description": "Wander around and familiarize yourself with the city."
+},
+{
+"date": "2023-06-01",
+"start_time": "19:00",
+"end_time": "21:00",
+"activity": "Dinner at the Hotel",
+"website": "http://www.hoteleiffeltrocadero.com/en/restaurant/",
+"description": "Grab dinner at your hotel to end your first day."
+},
+{
+"date": "2023-06-02",
+"start_time": "9:00",
+"end_time": "11:00",
+"activity": "Visit the Eiffel Tower",
+"website": "https://www.toureiffel.paris/en",
+"description": "The iconic Eiffel Tower is a must-visit attraction in Paris. Take the elevator to the top for stunning views of the city."
+},
+{
+"date": "2023-06-02",
+"start_time": "12:00",
+"end_time": "13:30",
+"activity": "Lunch at Francette",
+"website": "https://www.francetteparis.com/",
+"description": "Indulge in the flavors of French cuisine at Francette, a charming restaurant located in the heart of Paris."
+}
+]
+}
