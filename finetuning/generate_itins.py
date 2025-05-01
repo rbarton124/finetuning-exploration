@@ -6,7 +6,7 @@ from typing import List
 
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
-try:                                # SDK>=1.6
+try:
     from openai import RateLimitError
 except ImportError:                 # older SDK
     from openai.error import RateLimitError
@@ -232,11 +232,10 @@ async def main(args):
                 coros, return_when=asyncio.FIRST_COMPLETED)
 
             coros = list(pending)           # keep same type for .append
-            success = sum(t.result() for t in done)  # True == 1, False == 0
+            success = sum(t.result() for t in done)
             ok += success
             bar.update(success)
 
-            # clean up exceptions to avoid "Task exception was never retrieved"
             for t in done:
                 if not t.result():
                     _ = t.exception() if t.exception() else None

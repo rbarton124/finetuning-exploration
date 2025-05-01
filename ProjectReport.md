@@ -184,8 +184,9 @@ Through experimentation, reflection, and strategy, this project achieved all key
 ---
 
 ## Appendix A – Core Scripts  
-
+Repo Link: https://github.com/rbarton124/finetuning-exploration.git
 Explicit references provided for clarity and reproducibility:
-- Data Generation: `data_generation/generate_itins.py`  
-- Fine-Tuning: `fine_tuning/ft_itins.py`  
+- Data Generation: `fine_tuning/generate_itins.py`  
+- Fine-Tuning: `fine_tuning/ft_itins.py`
+- Itinerary Dataset: `fine_tuning/data/train.jsonl`
 - Web Backend API: `web/route_GPTItinerary.js`
