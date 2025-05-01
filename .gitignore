@@ -1,2 +1,75 @@
+# === Python environment ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.ipynb_checkpoints/
+
+# === Python virtual environments ===
+venv/
+.venv/
+env/
+ENV/
+venv.bak/
+pyenv/
+poetry.lock
+*.lock
+
+# === Python data files ===
+*.jsonl
+*.json
+/data/train.jsonl
+/data/val.jsonl
+/data/*.json
+data_generation/output/
+
+# === Fine-tuning logs, checkpoints, and results ===
+logs/
+checkpoints/
+models/
+fine_tuning/job_results/
+fine_tuning/*.log
+
+# === Node.js dependencies and build output ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+coverage/
+.nyc_output/
+
+# === Environment files (API keys, secrets) ===
 .env
-Trippy/config/config.js
+.env.*
+secrets/
+config.js
+config.json
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
+desktop.ini
+Icon?
+
+# === IDEs and Editors ===
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# === Logs and runtime data ===
+logs/
+*.log
+
+# === Miscellaneous ===
+*.swp
+*.swo
+*.tmp
