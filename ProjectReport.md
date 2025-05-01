@@ -54,6 +54,10 @@ Recognizing GPT-4.1’s prohibitive cost and latency in deployment, I employed a
 
 An Express.js backend integrated the fine-tuned model, handling API calls, structuring JSON responses reliably, and interfacing with a React-based frontend. This structure facilitated integration and simplified frontend logic.
 
+Demo:
+[![Video Thumbnail](figures/Thumbnail.png)](https://drive.google.com/file/d/17Eb5O0mv1GSDUkNdkmkcfOIuVzbDsnxg/view?usp=sharing)
+
+
 ---
 
 ## 5 Synthetic Dataset Generation  
