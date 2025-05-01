@@ -73,3 +73,6 @@ logs/
 *.swp
 *.swo
 *.tmp
+
+
+Trippy/config/config.js
